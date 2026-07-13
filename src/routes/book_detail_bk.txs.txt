@@ -1,0 +1,232 @@
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { SiteLayout } from "@/components/SiteLayout";
+import { getBookById, books } from "@/lib/books-data";
+import { PageHero, Section } from "@/components/ui/Section";
+import { ArrowLeft, Calendar, BookOpen, User, Download, CheckCircle2 } from "lucide-react";
+import book_details from "@/assets/book_details.jpg";
+export const Route = createFileRoute("/books/$bookId")({
+  loader: ({ params }) => {
+    const book = getBookById(params.bookId);
+    if (!book) throw notFound();
+    return { book };
+  },
+  head: ({ loaderData }) => ({
+    meta: loaderData
+      ? [
+          { title: `${loaderData.book.title} | पुस्तके` },
+          { name: "description", content: loaderData.book.shortDescription },
+        ]
+      : [{ title: "पुस्तक सापडले नाही" }, { name: "robots", content: "noindex" }],
+  }),
+  notFoundComponent: () => (
+    <SiteLayout>
+      <Section>
+        <div className="mx-auto max-w-xl text-center">
+          <h1 className="font-display text-3xl font-bold">पुस्तक सापडले नाही</h1>
+          <Link to="/books" className="mt-6 inline-block text-primary underline">पुस्तके पहा</Link>
+        </div>
+      </Section>
+    </SiteLayout>
+  ),
+  errorComponent: ({ error, reset }) => (
+    <SiteLayout>
+      <Section>
+        <div className="mx-auto max-w-xl text-center">
+          <h1 className="font-display text-2xl font-bold">त्रुटी</h1>
+          <p className="mt-2 text-muted-foreground">{error.message}</p>
+          <button onClick={reset} className="mt-4 rounded-md bg-primary px-4 py-2 text-primary-foreground">पुन्हा प्रयत्न करा</button>
+        </div>
+      </Section>
+    </SiteLayout>
+  ),
+  component: BookDetailPage,
+});
+
+function BookDetailPage() {
+  const { book } = Route.useLoaderData();
+  const related = books.filter((b) => b.id !== book.id).slice(0, 3);
+
+  return (
+    <SiteLayout>
+      <PageHero
+        eyebrow="Digital Library"
+        title="पुस्तके"
+        subtitle="ज्ञान, संस्कार आणि इतिहासाचा डिजिटल खजिना — क्लिक करा आणि ऑनलाइन वाचा"
+        backgroundImage={book_details}
+      />
+      <Section>
+        <Link
+          to="/books"
+          className="group inline-flex items-center justify-center gap-1.5 rounded-[2px] px-5 py-2.5 sm:px-7 sm:py-3 font-['Mukta'] text-xs sm:text-sm font-bold tracking-[0.02em] transition-all duration-300 ease-in-out hover:-translate-y-1 bg-gradient-to-br from-[var(--gold-300)] via-[var(--gold-600)] to-[var(--gold-400)] text-[var(--maroon-950)] shadow-[0_8px_22px_-8px_rgba(212,175,55,0.65)] hover:shadow-[0_12px_28px_-8px_rgba(212,175,55,0.75)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold-500)] focus-visible:ring-offset-2"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          पुस्तके यादीकडे परत जा
+        </Link>
+
+        {/* ===== HERO ===== */}
+        <div className="relative mt-8 overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary to-[#2a0810] shadow-elegant">
+          {/* subtle texture, purely decorative, no layout impact */}
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.07]"
+            style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "18px 18px" }}
+            aria-hidden="true"
+          />
+
+          <div className="relative grid gap-8 p-6 sm:p-10 md:grid-cols-[220px_1fr] md:gap-10 lg:grid-cols-[260px_1fr] lg:gap-12 lg:p-8">
+            {/* Cover */}
+            <div className="mx-auto w-full max-w-[220px] md:mx-0">
+              <div className="overflow-hidden rounded-2xl border-4 border-white/10 shadow-2xl ring-1 ring-white/10">
+                <img
+                  src={book.cover}
+                  alt={book.title}
+                  className="aspect-[2/3] w-full object-cover"
+                />
+              </div>
+              <a
+                href={book.pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-secondary px-5 py-3 text-sm font-semibold text-secondary-foreground shadow-soft transition hover:opacity-90"
+              >
+                <Download className="h-4 w-4" />
+                PDF डाउनलोड करा
+              </a>
+            </div>
+
+            {/* Title / meta */}
+            <div className="flex flex-col justify-center text-center text-primary-foreground md:text-left">
+              <span className="mx-auto inline-flex w-fit items-center rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-secondary md:mx-0">
+                {book.category}
+              </span>
+              <h1 className="mt-4 font-display text-2xl font-bold leading-tight sm:text-3xl lg:text-5xl">
+                {book.title}
+              </h1>
+
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-primary-foreground/75 md:justify-start">
+                <span className="inline-flex items-center gap-1.5"><User className="h-4 w-4" />{book.author}</span>
+                <span className="inline-flex items-center gap-1.5"><Calendar className="h-4 w-4" />{book.date}</span>
+                <span className="inline-flex items-center gap-1.5"><BookOpen className="h-4 w-4" />{book.pages} पाने</span>
+              </div>
+
+              <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-primary-foreground/85 md:mx-0">
+                {book.shortDescription}
+              </p>
+              <a
+              
+                href="#reader"
+                className="mx-auto mt-7 inline-flex w-fit items-center gap-2 rounded-full border border-white/25 px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-white/10 md:mx-0"
+              >
+                ऑनलाइन वाचा
+                <ArrowLeft className="h-4 w-4 rotate-180" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* ===== BODY ===== */}
+        <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_300px]">
+          <div>
+            {/* Description */}
+            <p className="text-base leading-relaxed text-foreground/85">
+              {book.longDescription}
+            </p>
+
+            {/* Highlights */}
+            <div className="mt-8 rounded-2xl border border-border bg-surface p-6">
+              <h3 className="font-display text-lg font-semibold text-foreground">पुस्तकाची वैशिष्ट्ये</h3>
+              <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                {book.highlights.map((h: string) => (
+                  <li key={h} className="flex items-start gap-2 text-sm text-foreground/85">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                    <span>{h}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* PDF viewer */}
+            <div id="reader" className="mt-10 scroll-mt-24">
+              <h2 className="font-display text-xl font-bold text-foreground sm:text-2xl">
+                ऑनलाइन वाचा
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                खालील व्ह्यूअरमध्ये पुस्तक थेट वाचता येईल.
+              </p>
+              <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-black shadow-elegant">
+                <iframe
+                  src={book.pdfUrl}
+                  title={book.title}
+                  className="h-[60vh] w-full sm:h-[70vh]"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Quick facts sidebar — sticky only at lg+, plain block below that */}
+          <aside className="h-fit rounded-2xl border border-border bg-card p-6 shadow-soft lg:sticky lg:top-24">
+            <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-primary">
+              तपशील
+            </h3>
+            <dl className="mt-4 space-y-4 text-sm">
+              <div className="flex items-center justify-between border-b border-border pb-3">
+                <dt className="inline-flex items-center gap-2 text-muted-foreground"><User className="h-4 w-4" />लेखक</dt>
+                <dd className="font-medium text-foreground">{book.author}</dd>
+              </div>
+              <div className="flex items-center justify-between border-b border-border pb-3">
+                <dt className="inline-flex items-center gap-2 text-muted-foreground"><Calendar className="h-4 w-4" />प्रकाशन</dt>
+                <dd className="font-medium text-foreground">{book.date}</dd>
+              </div>
+              <div className="flex items-center justify-between">
+                <dt className="inline-flex items-center gap-2 text-muted-foreground"><BookOpen className="h-4 w-4" />पाने</dt>
+                <dd className="font-medium text-foreground">{book.pages}</dd>
+              </div>
+            </dl>
+            <a
+              href={book.pdfUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-soft transition hover:opacity-90"
+            >
+              <Download className="h-4 w-4" />
+              PDF डाउनलोड करा
+            </a>
+          </aside>
+        </div>
+
+        {/* ===== RELATED ===== */}
+        {related.length > 0 && (
+          <div className="mt-16">
+            <h2 className="font-display text-xl font-bold text-foreground sm:text-2xl">
+              इतर पुस्तके
+            </h2>
+            <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {related.map((b) => (
+                <Link
+                  key={b.id}
+                  to="/books/$bookId"
+                  params={{ bookId: b.id }}
+                  className="group overflow-hidden rounded-2xl border border-border bg-card shadow-soft transition hover:-translate-y-1 hover:shadow-elegant"
+                >
+                  <div className="aspect-[2/3] w-full overflow-hidden">
+                    <img
+                      src={b.cover}
+                      alt={b.title}
+                      className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-primary">{b.category}</p>
+                    <h3 className="mt-1 line-clamp-2 font-display text-sm font-semibold text-foreground group-hover:text-primary">
+                      {b.title}
+                    </h3>
+                    <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{b.shortDescription}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+      </Section>
+    </SiteLayout>
+  );
+}

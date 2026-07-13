@@ -1,0 +1,201 @@
+@import "tailwindcss";
+@source "../src";
+@import "tw-animate-css";
+
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
+  --font-display: 'Cinzel', serif;
+  --font-body: "Mukta", sans-serif;
+  --font-heading: "Cinzel", serif;
+  --font-marathi: "Yatra One", cursive;
+  --font-short: "Cormorant Garamond", serif;
+}
+
+:root {
+  --radius: 0.75rem;
+  /* Deep maroon red primary + cream background + gold accent (matching reference site) */
+  --background: oklch(0.975 0.022 75);          /* warm cream */
+  --foreground: oklch(0.25 0.08 30);            /* deep maroon text */
+  --surface: oklch(0.96 0.028 70);
+  --surface-foreground: oklch(0.25 0.08 30);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.25 0.08 30);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.25 0.08 30);
+  --primary: #4a0b1a;               /* deep maroon red #8B1A1F */
+  --primary-foreground: oklch(0.99 0.005 80);
+  --secondary: oklch(0.72 0.14 75);             /* warm gold */
+  --secondary-foreground: oklch(0.25 0.08 30);
+  --accent: oklch(0.72 0.14 75);                /* gold accent */
+  --accent-foreground: oklch(0.25 0.08 30);
+  --muted: oklch(0.94 0.022 75);
+  --muted-foreground: oklch(0.45 0.05 40);
+  --destructive: oklch(0.55 0.22 27);
+  --destructive-foreground: oklch(0.985 0.012 80);
+  --border: oklch(0.88 0.025 70);
+  --input: oklch(0.88 0.025 70);
+  --ring: oklch(0.38 0.15 25);
+
+  --gradient-hero: linear-gradient(135deg, oklch(0.3 0.12 25) 0%, oklch(0.4 0.16 28) 50%, oklch(0.48 0.18 32) 100%);
+  --gradient-warm: linear-gradient(180deg, oklch(0.975 0.022 75) 0%, oklch(0.95 0.035 65) 100%);
+  --shadow-soft: 0 4px 20px -8px oklch(0.38 0.15 25 / 0.3);
+  --shadow-elegant: 0 20px 50px -20px oklch(0.38 0.15 25 / 0.4);
+
+  /* core brand vars */
+  --maroon-950:#2c050d;
+  --maroon-900:#4a0b1a;
+  --maroon-850:#5c0f21;
+  --maroon-800:#6f1327;
+  --maroon-700:#8c182f;
+  --gold-700:#9c7220;
+  --gold-600:#b8862c;
+  --gold-500:#d4af37;
+  --gold-400:#e6c765;
+  --gold-300:#f0d585;
+  --gold-100:#fbf0d0;
+  --cream:#fbf3e2;
+  --paper:#fffbf0;
+  --ink:#2a0810;
+  --text-muted:#6b3a45;
+  --shadow-maroon:0 22px 55px -22px rgba(44,5,13,0.5);
+  --shadow-gold: 0 0 0 1px rgba(212,175,55,0.5), 0 18px 40px -18px rgba(44,5,13,0.55);
+
+  /* additional brand vars — previously hardcoded hex values, centralized so
+     nothing in the components needs a raw hex/rgb literal. Values are kept
+     identical to the originals so the visual design does not change. */
+  --maroon-925:#3d0a16;        /* Samajdarshan video card background */
+  --maroon-910:#3d000f;        /* Live/upcoming event + stream card background */
+  --maroon-black:#1a0104;      /* Deepest background for the "stream not live" panel */
+  --ivory-100:#fff5e7;         /* Light inset border on the About section photo */
+  --gold-text-alt:#e8c468;     /* Video card title text */
+  --cream-text:#f5e6c8;        /* Video card description text */
+  --maroon-icon-ink:#3b0a0a;   /* Dark ink used on gold-gradient surfaces (icons, date chip) */
+  --service-icon-from:#6b1024; /* Digital Seva icon badge gradient start */
+  --service-icon-to:#3d0912;   /* Digital Seva icon badge gradient end */
+  --gold-stroke:#d4a847;       /* Service icon outline stroke */
+  --gold-soft:rgba(212,175,55,0.35); /* Soft translucent gold used in dividers/rings */
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    font-feature-settings: "kern";
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+}
+.script-heading {
+    font-family: 'Yatra One', cursive;
+    color: #f0d585;
+    text-shadow: 0 2px 26px rgba(212, 175, 55, 0.28);
+}
+.script-heading2 {
+    font-family: 'Yatra One', cursive;
+    color: var(--maroon-700);
+    text-shadow: 0 2px 26px rgba(212, 175, 55, 0.28);
+}
+@utility gradient-hero {
+  background-image: var(--gradient-hero);
+}
+@utility gradient-warm {
+  background-image: var(--gradient-warm);
+}
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+@utility shadow-elegant {
+  box-shadow: var(--shadow-elegant);
+}
+@utility text-balance {
+  text-wrap: balance;
+}
+
+
+/*  */
+.corner-frame{position:relative;}
+.corner-frame .corner-tl,.corner-frame .corner-br{position:absolute;width:20px;height:20px;border:2px solid var(--gold-500);opacity:.85;}
+.corner-frame .corner-tl{top:8px;left:8px;border-right:none;border-bottom:none;}
+.corner-frame .corner-br{bottom:8px;right:8px;border-left:none;border-top:none;}
+/*  */
+
+
+.parch-devanagari { font-family: 'Tiro Devanagari Marathi', serif; }
+.parch-display { font-family: 'Yatra One', 'Tiro Devanagari Marathi', serif; }
+
+.parch-sheet {
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 20%, rgba(139,101,53,0.10), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 85% 75%, rgba(139,101,53,0.12), transparent 60%),
+    radial-gradient(ellipse 40% 30% at 60% 15%, rgba(139,101,53,0.07), transparent 60%),
+    radial-gradient(ellipse 45% 40% at 30% 90%, rgba(139,101,53,0.08), transparent 60%),
+    linear-gradient(135deg, #f1e4c3 0%, #e8d7ac 45%, #ecdcb6 70%, #e3d09f 100%);
+  clip-path: polygon(
+    0% 2%, 4% 0.5%, 8% 2.2%, 12% 0.8%, 16% 2.6%, 20% 0.4%, 24% 1.8%,
+    28% 0.6%, 32% 2.4%, 36% 1%, 40% 2.8%, 44% 0.5%, 48% 2%, 52% 0.8%,
+    56% 2.5%, 60% 0.6%, 64% 2.2%, 68% 1%, 72% 2.6%, 76% 0.4%, 80% 2%,
+    84% 0.8%, 88% 2.4%, 92% 0.6%, 96% 2%, 100% 1%,
+    100% 99%, 96% 97.8%, 92% 99.4%, 88% 97.6%, 84% 99.2%, 80% 97.4%,
+    76% 99.6%, 72% 97.8%, 68% 99.4%, 64% 97.6%, 60% 99.2%, 56% 97.4%,
+    52% 99.6%, 48% 97.8%, 44% 99.4%, 40% 97.6%, 36% 99.2%, 32% 97.4%,
+    28% 99.6%, 24% 97.8%, 20% 99.4%, 16% 97.6%, 12% 99.2%, 8% 97.8%,
+    4% 99.6%, 0% 98%
+  );
+}
+
+.parch-rod {
+  background: linear-gradient(
+    90deg,
+    #3a2415 0%,
+    #6b4423 12%,
+    #8a5a2e 25%,
+    #a8763f 38%,
+    #8a5a2e 50%,
+    #6b4423 65%,
+    #4a2c17 82%,
+    #2e1a0d 100%
+  );
+}
+
+.parch-finial {
+  background: radial-gradient(circle at 35% 30%, #b8874f, #6b4423 60%, #3a2415 100%);
+}
