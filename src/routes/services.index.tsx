@@ -87,23 +87,27 @@ const servicesPreview = [
     href: "#",
     icon: (
       <svg className="h-[30px] w-[30px] stroke-[var(--gold-stroke)]" viewBox="0 0 24 24" fill="none" strokeWidth={1.6}>
-        <path d="M12 3 L21 8 L12 13 L3 8 Z" />
-        <path d="M6 10 V16 C6 18 9 19 12 19 C15 19 18 18 18 16 V10" />
+        <path d="M8 12 C 5.5 10.5 4 8.5 4 6.5 C 4 4.5 5.5 3 7.5 3 C 9 3 10 4 10 5.5" />
+        <path d="M16 12 C 18.5 10.5 20 8.5 20 6.5 C 20 4.5 18.5 3 16.5 3 C 15 3 14 4 14 5.5" />
+        <circle cx="8" cy="16" r="4" />
+        <circle cx="16" cy="16" r="4" />
       </svg>
     ),
-    title: "Scholarships & Education",
-    desc: "Financial aid and mentorship for meritorious students of the Samaj.",
+    title: "Matrimonial Services",
+    desc: "समाजातील विवाहेच्छुक तरुण-तरुणींसाठी विश्वासार्ह वधू-वर सूचक मंच.",
   },
   {
     href: "#",
     icon: (
       <svg className="h-[30px] w-[30px] stroke-[var(--gold-stroke)]" viewBox="0 0 24 24" fill="none" strokeWidth={1.6}>
-        <path d="M4 21 V10 L12 4 L20 10 V21 Z" />
-        <path d="M9 21 V14 H15 V21" />
+        <rect x="3" y="8" width="18" height="12" rx="1.5" />
+        <path d="M8 8 V6 C8 4.9 8.9 4 10 4 H14 C15.1 4 16 4.9 16 6 V8" />
+        <path d="M3 13 H21" />
+        <path d="M10 13 V15 H14 V13" />
       </svg>
     ),
-    title: "Healthcare Assistance",
-    desc: "Medical camps, insurance guidance and emergency support funds.",
+    title: "Job Portal",
+    desc: "समाजबांधवांसाठी रोजगाराच्या संधी आणि करिअर मार्गदर्शन उपलब्ध करून देणारे व्यासपीठ.",
   },
 ];
 function ServicesIndex() {
@@ -123,48 +127,65 @@ function ServicesIndex() {
             sub={"शैक्षणिक, सामाजिक आणि आर्थिक प्रगतीसाठी विविध डिजिटल सेवा एकाच व्यासपीठावर."}
           />
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {servicesPreview.map((s) => (
-              <a
-                key={s.href}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`group relative flex flex-col items-center overflow-hidden rounded-2xl border border-white/10 bg-[var(--maroon-900)] px-6 py-9 text-center backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 sm:px-7 sm:py-10`}
-              >
-                <span className="pointer-events-none absolute left-4 top-4 h-5 w-5 border-l border-t border-[var(--gold-400)]/40" />
-                <span className="pointer-events-none absolute bottom-4 right-4 h-5 w-5 border-b border-r border-[var(--gold-400)]/40" />
-                <div className="mb-5 grid h-16 w-16 place-items-center rounded-full border-2 border-[var(--gold-500)] bg-gradient-to-br from-[var(--service-icon-from)] to-[var(--service-icon-to)]">
-                  {s.icon}
-                </div>
-                <h3 className="font-display text-base font-bold text-[var(--gold-300)] sm:text-lg">{s.title}</h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-white/60">{s.desc}</p>
-                <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-[var(--gold-400)]">
-                  अधिक जाणून घ्या <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </span>
-              </a>
-            ))}
+            {servicesPreview.map((s) => {
+              const comingSoon = s.href === "#";
+              const CardTag = comingSoon ? "div" : "a";
+
+              return (
+                <CardTag
+                  key={s.title}
+                  {...(!comingSoon && {
+                    href: s.href,
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                  })}
+                  className={`group relative flex flex-col items-center overflow-hidden rounded-2xl border border-white/10 bg-[var(--maroon-900)] px-6 py-9 text-center backdrop-blur-sm transition-all duration-300 sm:px-7 sm:py-10 ${
+                    comingSoon ? "cursor-default" : "hover:-translate-y-1.5"
+                  }`}
+                >
+                  <span className="pointer-events-none absolute left-4 top-4 h-5 w-5 border-l border-t border-[var(--gold-400)]/40" />
+                  <span className="pointer-events-none absolute bottom-4 right-4 h-5 w-5 border-b border-r border-[var(--gold-400)]/40" />
+
+                  {comingSoon && (
+                    <>
+                      <div className="pointer-events-none absolute -right-11 top-6 w-40 rotate-45 bg-[var(--gold-stroke))] py-1 text-center shadow-md">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--maroon-950)]">
+                          लवकरच
+                        </span>
+                      </div>
+                      <div className="pointer-events-none absolute inset-0 bg-[var(--maroon-950)]/35" />
+                    </>
+                  )}
+
+                  <div
+                    className={`relative z-[1] mb-5 grid h-16 w-16 place-items-center rounded-full border-2 bg-gradient-to-br transition-all ${
+                      comingSoon
+                        ? "border-white/20 from-white/5 to-white/[0.02] grayscale opacity-50"
+                        : "border-[var(--gold-500)] from-[var(--service-icon-from)] to-[var(--service-icon-to)]"
+                    }`}
+                  >
+                    {s.icon}
+                  </div>
+                  <h3
+                    className={`relative z-[1] font-display text-base font-bold sm:text-lg ${
+                      comingSoon ? "text-white/50" : "text-[var(--gold-300)]"
+                    }`}
+                  >
+                    {s.title}
+                  </h3>
+                  <p className={`relative z-[1] mt-2.5 text-sm leading-relaxed ${comingSoon ? "text-white/35" : "text-white/60"}`}>
+                    {s.desc}
+                  </p>
+
+                  {!comingSoon && (
+                    <span className="relative z-[1] mt-5 inline-flex items-center gap-1 text-sm font-semibold text-[var(--gold-400)]">
+                      अधिक जाणून घ्या <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </span>
+                  )}
+                </CardTag>
+              );
+            })}
           </div>
-          {/* {services.map((s) => (
-            <a
-              key={s.href}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card p-7 shadow-soft transition-all hover:-translate-y-1 hover:shadow-elegant"
-            >
-              <span className="absolute right-5 top-5 font-display text-5xl font-bold text-primary/10 transition-colors group-hover:text-primary/20">
-                {s.no}
-              </span>
-              <div className="mb-5 inline-grid h-14 w-14 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-soft">
-                {s.icon}
-              </div>
-              <h3 className="font-display text-xl font-semibold text-foreground">{s.title}</h3>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
-              <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
-                सेवा पहा <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </span>
-            </a>
-          ))} */}
         </Section>
         {/* How to use the portal */}
          <div
@@ -203,12 +224,12 @@ function ServicesIndex() {
                   </div>
 
                   {/* Title */}
-                  <h4 className="mt-4 text-base font-bold text-[var(--maroon-910)] transition-colors duration-300 group-hover:text-[#ceb036]">
+                  <h4 className="mt-4 text-base font-extrabold text-[var(--maroon-910)] transition-colors duration-300 group-hover:text-[#ceb036]">
                     {step.title}
                   </h4>
 
                   {/* Description */}
-                  <div className="mt-2 text-[13px] leading-[1.63] text-[#070301]">
+                  <div className="mt-2 text-[15px] leading-[1.63] text-[#070301]">
                     {step.desc}
                   </div>
                 </div>

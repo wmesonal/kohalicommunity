@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { ArrowLeft, Calendar, Play } from "lucide-react";
 import { useEffect, useState } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
@@ -89,7 +89,7 @@ function VideoCard({ video }: any) {
       </div>
  
       <div className="p-[20px] px-5">
-        <h4 className="font-serif text-[22px] text-[var(--gold-text-alt)] mb-2">
+        <h4 className="font-bold text-[22px] text-[var(--gold-text-alt)] mb-2">
           {video.title}
         </h4>
         <p className="text-[16px] text-[var(--cream-text)]/75 leading-relaxed mb-3">
@@ -125,6 +125,7 @@ export const Route = createFileRoute("/samajdarshan")({
 
 function SamajDarshanPage() {
   const { t } = useLang();
+  const router = useRouter();
   return (
     <SiteLayout>
       <PageHero
@@ -141,6 +142,16 @@ function SamajDarshanPage() {
                 className="pointer-events-none absolute inset-0"
               />
               <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mb-8">
+                   <button
+                    type="button"
+                    onClick={() => router.history.back()}
+                    className="cursor-pointer group inline-flex items-center justify-center gap-1 rounded-[2px] bg-gradient-to-br from-[var(--gold-300)] via-[var(--gold-600)] to-[var(--gold-400)] px-4 py-2 sm:px-[26px] sm:py-3 font-['Mukta'] text-xs sm:text-[0.88rem] font-bold tracking-[0.02em] text-[var(--maroon-950)] shadow-[0_8px_22px_-8px_rgba(212,175,55,0.65)] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_12px_28px_-8px_rgba(212,175,55,0.75)]"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                    {t("मुख्यपृष्ठावर परत जा")}
+                  </button>
+                </div>
                 
                 <div className="mt-0 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   {samajVideos.map((v) => (

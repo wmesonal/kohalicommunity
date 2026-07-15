@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Section, BandLabel } from "@/components/ui/Section";
 import { ArrowLeft, ArrowUpRight, Calendar, MapPin, Play } from "lucide-react";
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/live-events/")({
 
 function LiveEventsPage() {
   const { t } = useLang();
-
+ const router = useRouter();
   return (
     <SiteLayout>
       {/* Featured / current broadcast */}
@@ -37,14 +37,6 @@ function LiveEventsPage() {
           <div className="relative flex min-h-[440px] flex-col justify-between px-4 py-5 sm:min-h-[520px] sm:px-6 sm:py-6 lg:min-h-[600px] lg:px-8 lg:py-8">
             {/* top bar */}
             <div className="mx-auto flex w-full max-w-7xl items-center justify-between sm:px-6 lg:px-8">
-              <Link
-                to="/"
-                className="group inline-flex items-center justify-center gap-1.5 rounded-[2px] px-5 py-2.5 sm:px-7 sm:py-3 font-['Mukta'] text-xs sm:text-sm font-bold tracking-[0.02em] transition-all duration-300 ease-in-out hover:-translate-y-1 bg-gradient-to-br from-[var(--gold-300)] via-[var(--gold-600)] to-[var(--gold-400)] text-[var(--maroon-950)] shadow-[0_8px_22px_-8px_color-mix(in_srgb,var(--gold-500)_65%,transparent)] hover:shadow-[0_12px_28px_-8px_color-mix(in_srgb,var(--gold-500)_75%,transparent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold-500)] focus-visible:ring-offset-2"
-              >
-                <ArrowLeft className="h-4 w-4 shrink-0" />
-                <span>{t("मुख्यपृष्ठावर परत जा")}</span>
-              </Link>
-
               <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-secondary/40 bg-black/30 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-secondary backdrop-blur-sm sm:gap-2 sm:px-3.5 sm:py-1.5 sm:text-xs sm:tracking-[0.2em]">
                 <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-secondary/60" />
@@ -56,10 +48,10 @@ function LiveEventsPage() {
 
             {/* bottom content */}
             <div className="mx-auto w-full max-w-7xl pt-8 sm:pt-10 sm:px-6 lg:px-8">
-              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-secondary sm:text-xs sm:tracking-[0.25em]">
+              <p className="text-[14px] font-bold uppercase text-secondary sm:text-sm mb-3">
                 {t("प्रसारण चालू आहे")}
               </p>
-              <h1 className="mt-2.5 max-w-3xl font-display text-2xl font-bold leading-[1.15] text-white sm:mt-3 sm:text-4xl sm:leading-[1.1] lg:text-6xl">
+              <h1 className="max-w-2xl font-display text-3xl font-bold leading-tight text-white drop-shadow-sm sm:text-6xl">
                 {t(featuredLive.title)}
               </h1>
 
@@ -95,7 +87,16 @@ function LiveEventsPage() {
 
       {/* Archive — broadcast log */}
       <Section>
-        <div className="mx-auto max-w-7xl">        
+        <div className="mx-auto max-w-7xl">      
+         <button
+            type="button"
+            onClick={() => router.history.back()}
+            className="cursor-pointer mb-8 group inline-flex items-center justify-center gap-1 rounded-[2px] bg-gradient-to-br from-[var(--gold-300)] via-[var(--gold-600)] to-[var(--gold-400)] px-4 py-2 sm:px-[26px] sm:py-3 font-['Mukta'] text-xs sm:text-[0.88rem] font-bold tracking-[0.02em] text-[var(--maroon-950)] shadow-[0_8px_22px_-8px_rgba(212,175,55,0.65)] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_12px_28px_-8px_rgba(212,175,55,0.75)]"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            {t("मुख्यपृष्ठावर परत जा")}
+          </button>
+  
           <div className="mb-6 flex items-end justify-between gap-4 border-b-2 border-primary/15 pb-4 sm:mb-8 sm:pb-5">
             <div>
               <BandLabel

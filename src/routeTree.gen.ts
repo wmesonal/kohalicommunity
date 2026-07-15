@@ -9,15 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as Statistics_1307RouteImport } from './routes/statistics_13-07'
 import { Route as StatisticsRouteImport } from './routes/statistics'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SamajdarshanRouteImport } from './routes/samajdarshan'
 import { Route as NoticesRouteImport } from './routes/notices'
 import { Route as KohliSamajRouteImport } from './routes/kohli-samaj'
-import { Route as IndexCopyRouteImport } from './routes/index - Copy'
-import { Route as Index0907RouteImport } from './routes/index - 09-07'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
@@ -33,11 +30,6 @@ import { Route as EventsEventIdRouteImport } from './routes/events.$eventId'
 import { Route as CommitteeMemberIdRouteImport } from './routes/committee.$memberId'
 import { Route as BooksBookIdRouteImport } from './routes/books.$bookId'
 
-const Statistics_1307Route = Statistics_1307RouteImport.update({
-  id: '/statistics_13-07',
-  path: '/statistics_13-07',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const StatisticsRoute = StatisticsRouteImport.update({
   id: '/statistics',
   path: '/statistics',
@@ -66,16 +58,6 @@ const NoticesRoute = NoticesRouteImport.update({
 const KohliSamajRoute = KohliSamajRouteImport.update({
   id: '/kohli-samaj',
   path: '/kohli-samaj',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexCopyRoute = IndexCopyRouteImport.update({
-  id: '/index - Copy',
-  path: '/index - Copy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const Index0907Route = Index0907RouteImport.update({
-  id: '/index - 09-07',
-  path: '/index - 09-07',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GalleryRoute = GalleryRouteImport.update({
@@ -154,15 +136,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
-  '/index - 09-07': typeof Index0907Route
-  '/index - Copy': typeof IndexCopyRoute
   '/kohli-samaj': typeof KohliSamajRoute
   '/notices': typeof NoticesRoute
   '/samajdarshan': typeof SamajdarshanRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/statistics': typeof StatisticsRoute
-  '/statistics_13-07': typeof Statistics_1307Route
   '/books/$bookId': typeof BooksBookIdRoute
   '/committee/$memberId': typeof CommitteeMemberIdRoute
   '/events/$eventId': typeof EventsEventIdRoute
@@ -179,14 +158,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
-  '/index - 09-07': typeof Index0907Route
-  '/index - Copy': typeof IndexCopyRoute
   '/kohli-samaj': typeof KohliSamajRoute
   '/notices': typeof NoticesRoute
   '/samajdarshan': typeof SamajdarshanRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/statistics': typeof StatisticsRoute
-  '/statistics_13-07': typeof Statistics_1307Route
   '/books/$bookId': typeof BooksBookIdRoute
   '/committee/$memberId': typeof CommitteeMemberIdRoute
   '/events/$eventId': typeof EventsEventIdRoute
@@ -204,15 +180,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
-  '/index - 09-07': typeof Index0907Route
-  '/index - Copy': typeof IndexCopyRoute
   '/kohli-samaj': typeof KohliSamajRoute
   '/notices': typeof NoticesRoute
   '/samajdarshan': typeof SamajdarshanRoute
   '/services': typeof ServicesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/statistics': typeof StatisticsRoute
-  '/statistics_13-07': typeof Statistics_1307Route
   '/books/$bookId': typeof BooksBookIdRoute
   '/committee/$memberId': typeof CommitteeMemberIdRoute
   '/events/$eventId': typeof EventsEventIdRoute
@@ -231,15 +204,12 @@ export interface FileRouteTypes {
     | '/'
     | '/contact'
     | '/gallery'
-    | '/index - 09-07'
-    | '/index - Copy'
     | '/kohli-samaj'
     | '/notices'
     | '/samajdarshan'
     | '/services'
     | '/sitemap.xml'
     | '/statistics'
-    | '/statistics_13-07'
     | '/books/$bookId'
     | '/committee/$memberId'
     | '/events/$eventId'
@@ -256,14 +226,11 @@ export interface FileRouteTypes {
     | '/'
     | '/contact'
     | '/gallery'
-    | '/index - 09-07'
-    | '/index - Copy'
     | '/kohli-samaj'
     | '/notices'
     | '/samajdarshan'
     | '/sitemap.xml'
     | '/statistics'
-    | '/statistics_13-07'
     | '/books/$bookId'
     | '/committee/$memberId'
     | '/events/$eventId'
@@ -280,15 +247,12 @@ export interface FileRouteTypes {
     | '/'
     | '/contact'
     | '/gallery'
-    | '/index - 09-07'
-    | '/index - Copy'
     | '/kohli-samaj'
     | '/notices'
     | '/samajdarshan'
     | '/services'
     | '/sitemap.xml'
     | '/statistics'
-    | '/statistics_13-07'
     | '/books/$bookId'
     | '/committee/$memberId'
     | '/events/$eventId'
@@ -306,15 +270,12 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactRoute: typeof ContactRoute
   GalleryRoute: typeof GalleryRoute
-  Index0907Route: typeof Index0907Route
-  IndexCopyRoute: typeof IndexCopyRoute
   KohliSamajRoute: typeof KohliSamajRoute
   NoticesRoute: typeof NoticesRoute
   SamajdarshanRoute: typeof SamajdarshanRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StatisticsRoute: typeof StatisticsRoute
-  Statistics_1307Route: typeof Statistics_1307Route
   BooksBookIdRoute: typeof BooksBookIdRoute
   CommitteeMemberIdRoute: typeof CommitteeMemberIdRoute
   EventsEventIdRoute: typeof EventsEventIdRoute
@@ -328,13 +289,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/statistics_13-07': {
-      id: '/statistics_13-07'
-      path: '/statistics_13-07'
-      fullPath: '/statistics_13-07'
-      preLoaderRoute: typeof Statistics_1307RouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/statistics': {
       id: '/statistics'
       path: '/statistics'
@@ -375,20 +329,6 @@ declare module '@tanstack/react-router' {
       path: '/kohli-samaj'
       fullPath: '/kohli-samaj'
       preLoaderRoute: typeof KohliSamajRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/index - Copy': {
-      id: '/index - Copy'
-      path: '/index - Copy'
-      fullPath: '/index - Copy'
-      preLoaderRoute: typeof IndexCopyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/index - 09-07': {
-      id: '/index - 09-07'
-      path: '/index - 09-07'
-      fullPath: '/index - 09-07'
-      preLoaderRoute: typeof Index0907RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gallery': {
@@ -510,15 +450,12 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactRoute: ContactRoute,
   GalleryRoute: GalleryRoute,
-  Index0907Route: Index0907Route,
-  IndexCopyRoute: IndexCopyRoute,
   KohliSamajRoute: KohliSamajRoute,
   NoticesRoute: NoticesRoute,
   SamajdarshanRoute: SamajdarshanRoute,
   ServicesRoute: ServicesRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StatisticsRoute: StatisticsRoute,
-  Statistics_1307Route: Statistics_1307Route,
   BooksBookIdRoute: BooksBookIdRoute,
   CommitteeMemberIdRoute: CommitteeMemberIdRoute,
   EventsEventIdRoute: EventsEventIdRoute,

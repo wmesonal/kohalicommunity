@@ -27,19 +27,19 @@ interface FeedbackCard {
 const cards: FeedbackCard[] = [
   {
     id: "feedback",
-    icon: MessageCircle,
+    icon: Megaphone,
     eyebrow: "Share an Experience",
-    title: "अभिप्राय कळवा",
-    desc: "समाजाच्या कार्यक्रमांबद्दल आणि उपक्रमांबद्दल तुमचा अनुभव आमच्यासोबत शेअर करा.",
-    cta: "अभिप्राय लिहा",
+    title: "Report a Problem",
+    desc: "आपल्या अडचणी आम्हाला कळवा",
+    cta: "Tell us Your Problem",
   },
   {
     id: "suggestion",
-    icon: Megaphone,
+    icon: MessageCircle,
     eyebrow: "Suggest an Idea",
-    title: "सूचना अथवा तक्रार",
-    desc: "समाजाच्या प्रगतीसाठी तुमची सूचना महत्त्वाची आहे — मोकळेपणाने कळवा.",
-    cta: "सूचना लिहा",
+    title: "Suggestion Forum",
+    desc: "समाजाच्या विकासासाठी आपले मौल्यवान विचार द्या",
+    cta: "Give Your Suggestion",
   },
 ];
 
@@ -91,8 +91,8 @@ export function CommunityFeedback() {
       <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <BandLabel
             eyebrow="Voice of the Community"
-            title={t("समाजाचा आवाज")}
-            sub={t("तुमचे विचार, अनुभव आणि सूचना आमच्यासाठी अमूल्य आहेत — आम्हाला एक पत्र लिहा.")}
+            title={t("समाज संवाद")}
+            sub={t("आपल्या अडचणी आणि सूचना थेट समाज विकास मंडळापर्यंत पोहोचवा.")}
           />
        
         <div className="mt-14 grid gap-8 sm:grid-cols-2">
@@ -126,10 +126,8 @@ export function CommunityFeedback() {
                   >
                     <card.icon className="h-7 w-7 text-[var(--maroon-icon-ink)]" />
                   </div>
-                  <p className="mt-4 text-[12px] font-bold uppercase tracking-widest" style={{ color: MAROON_700 }}>
-                    {card.eyebrow}
-                  </p>
-                  <h3 className="mt-1 font-display text-[20px] font-bold" style={{ color: MAROON_900 }}>
+                
+                  <h3 className="mt-3 font-display text-[20px] font-bold" style={{ color: MAROON_900 }}>
                     {t(card.title)}
                   </h3>
                   <p className="mt-3 text-[16px] leading-relaxed text-foreground/65">{t(card.desc)}</p>

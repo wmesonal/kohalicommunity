@@ -63,7 +63,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         className="hidden md:block relative"
         style={{ background: `linear-gradient(90deg, var(--maroon-950) 0%, var(--maroon-800) 55%, var(--maroon-950) 100%)` }}
       >
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-2 text-xs text-primary-foreground sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-2 text-sm text-primary-foreground sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
             <a href="mailto:contact@kohalisamaj.org" className="inline-flex items-center gap-1.5 transition-colors hover:text-secondary">
               <Mail className="h-3.5 w-3.5" />
@@ -92,7 +92,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               type="button"
               onClick={toggle}
               aria-label="Toggle language"
-              className="ml-2 inline-flex items-center gap-1 rounded-full border border-secondary/40 px-3 py-1 text-xs font-medium transition-colors hover:border-secondary hover:bg-secondary hover:text-primary"
+              className="ml-2 inline-flex items-center gap-1 rounded-full border border-secondary/40 px-3 py-1 text-sm font-medium transition-colors hover:border-secondary hover:bg-secondary hover:text-primary"
             >
               <Languages className="h-3.5 w-3.5" />
               {lang === "mr" ? "English" : "मराठी"}
@@ -122,7 +122,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
               <p className="truncate font-display text-base font-bold tracking-wide text-primary sm:text-lg">
                 {t("कोहळी समाज विकास मंडळ")}
               </p>
-              <p className="truncate text-xs tracking-[0.15em] text-secondary/80">{t("नागपूर")}</p>
+              <p className="truncate text-sm tracking-[0.15em] text-secondary/80">{t("नागपूर")}</p>
             </div>
           </Link>
 
@@ -324,7 +324,7 @@ function SiteFooter() {
 
       {/* Bottom bar */}
       <div className="relative">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-2 px-4 py-4 text-center text-xs text-primary-foreground/75 sm:flex-row sm:px-6 sm:text-left lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-2 px-4 py-4 text-center text-sm text-primary-foreground/75 sm:flex-row sm:px-6 sm:text-left lg:px-8">
           <p>© {new Date().getFullYear()} {t("कोहळी समाज विकास मंडळ नागपूर")}. {t("सर्व हक्क राखीव.")}</p>
           {/* <p className="text-primary-foreground/60">{t("प्रेमाने आणि सेवाभावाने निर्मित")} ❤</p> */}
         </div>

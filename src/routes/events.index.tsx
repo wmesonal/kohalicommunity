@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { PageHero, Section } from "@/components/ui/Section";
 import { ArrowLeft, ArrowRight, Calendar, CheckCircle2, MapPin } from "lucide-react";
@@ -79,6 +79,7 @@ function EventCard({ ev }: { ev: UpcomingEvent }) {
 
 function EventsListPage() {
   const { t } = useLang();
+   const router = useRouter();
   return (
     <SiteLayout>
       <PageHero 
@@ -89,12 +90,14 @@ function EventsListPage() {
       />
       <Section>
         <div className="mx-auto max-w-7xl">
-          <Link 
-            to="/" 
-            className="group inline-flex items-center justify-center gap-1.5 rounded-[2px] px-5 py-2.5 sm:px-7 sm:py-3 font-['Mukta'] text-xs sm:text-sm font-bold tracking-[0.02em] transition-all duration-300 ease-in-out hover:-translate-y-1 bg-gradient-to-br from-[var(--gold-300)] via-[var(--gold-600)] to-[var(--gold-400)] text-[var(--maroon-950)] shadow-[0_8px_22px_-8px_rgba(212,175,55,0.65)] hover:shadow-[0_12px_28px_-8px_rgba(212,175,55,0.75)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold-500)] focus-visible:ring-offset-2"
-          >
-            <ArrowLeft className="h-4 w-4" /> मुख्यपृष्ठावर परत जा
-          </Link>
+          <button
+              type="button"
+              onClick={() => router.history.back()}
+              className="cursor-pointer group inline-flex items-center justify-center gap-1 rounded-[2px] bg-gradient-to-br from-[var(--gold-300)] via-[var(--gold-600)] to-[var(--gold-400)] px-4 py-2 sm:px-[26px] sm:py-3 font-['Mukta'] text-xs sm:text-[0.88rem] font-bold tracking-[0.02em] text-[var(--maroon-950)] shadow-[0_8px_22px_-8px_rgba(212,175,55,0.65)] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_12px_28px_-8px_rgba(212,175,55,0.75)]"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              {t("मुख्यपृष्ठावर परत जा")}
+            </button>
 
           {/* पुढील कार्यक्रम - Upcoming Events Section */}
           <div className="mt-10 mb-8 flex items-center gap-3">

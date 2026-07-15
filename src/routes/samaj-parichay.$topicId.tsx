@@ -1,10 +1,11 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useRouter } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, ScrollText, History, Building2, MapPin, CalendarDays, Info } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { PageHero, Section } from "@/components/ui/Section";
 import { parichayTopics, type ParichayTopic } from "@/lib/samaj-parichay-data";
-import heroImage from "@/assets/samaj-parichay-hero.jpg";
 import samajbg from "@/assets/samajbhavan.jpg";
+import historyImage from "@/assets/samaj.jpg";
+import bhavanImage from "@/assets/samaj_bhavan.jpg";
 
 export const Route = createFileRoute("/samaj-parichay/$topicId")({
   loader: ({ params }) => {
@@ -52,7 +53,13 @@ function GoldDivider() {
 function TopicPage() {
   const { topic } = Route.useLoaderData() as { topic: ParichayTopic };
   const Icon = iconMap[topic.icon];
-
+   const router = useRouter();
+const sideImage =
+  topic.id === "samaj-bhavan"
+    ? bhavanImage
+    : topic.id === "itihas-ani-varasa"
+    ? historyImage
+    : historyImage;
   return (
     <SiteLayout>
       <PageHero
@@ -64,13 +71,14 @@ function TopicPage() {
 
       <Section>
         <div className="mb-10 flex flex-wrap items-center justify-between gap-4">
-          <Link
-            to="/"
-            className="group inline-flex items-center justify-center gap-1.5 rounded-[2px] px-5 py-2.5 sm:px-7 sm:py-3 font-['Mukta'] text-xs sm:text-sm font-bold tracking-[0.02em] transition-all duration-300 ease-in-out hover:-translate-y-1 bg-gradient-to-br from-[var(--gold-300)] via-[var(--gold-600)] to-[var(--gold-400)] text-[var(--maroon-950)] shadow-[0_8px_22px_-8px_color-mix(in_srgb,var(--gold-500)_65%,transparent)] hover:shadow-[0_12px_28px_-8px_color-mix(in_srgb,var(--gold-500)_75%,transparent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold-500)] focus-visible:ring-offset-2"
+          <button
+            type="button"
+            onClick={() => router.history.back()}
+            className="cursor-pointer group inline-flex items-center justify-center gap-1 rounded-[2px] bg-gradient-to-br from-[var(--gold-300)] via-[var(--gold-600)] to-[var(--gold-400)] px-4 py-2 sm:px-[26px] sm:py-3 font-['Mukta'] text-xs sm:text-[0.88rem] font-bold tracking-[0.02em] text-[var(--maroon-950)] shadow-[0_8px_22px_-8px_rgba(212,175,55,0.65)] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_12px_28px_-8px_rgba(212,175,55,0.75)]"
           >
             <ArrowLeft className="h-4 w-4" />
             मुख्यपृष्ठावर परत जा
-          </Link>
+          </button>
           <div className="inline-flex items-center gap-2 rounded-full bg-[var(--maroon-800)] px-4 py-2 text-xs font-bold uppercase tracking-widest text-[var(--cream-text)]">
             <Icon className="h-4 w-4 text-[var(--gold-500)]" />
             {topic.eyebrow}
@@ -114,7 +122,7 @@ function TopicPage() {
             <div className="relative rounded-2xl border-4 border-[var(--gold-500)]/80 p-1.5 shadow-lg">
               <div className="overflow-hidden rounded-xl">
                 <img
-                  src={heroImage}
+                  src={sideImage}
                   alt={topic.title}
                   loading="lazy"
                   className="h-full w-full object-cover"

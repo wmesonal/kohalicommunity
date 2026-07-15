@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
@@ -20,7 +20,7 @@ import {
   Briefcase,
   HeartHandshake,
   Scale,
-  TrendingUp,
+  TrendingUp, ChevronRight, ChevronLeft,
   type LucideIcon,
 } from "lucide-react";
 import parichayHero from "@/assets/samaj-parichay-hero.jpg";
@@ -234,7 +234,7 @@ function VideoCard({ video }: { video: (typeof samajVideos)[number] }) {
       </div>
 
       <div className="p-5">
-        <h4 className="font-serif text-lg text-[var(--gold-text-alt)] sm:text-[22px]">{video.title}</h4>
+        <h4 className="font-bold text-lg text-[var(--gold-text-alt)] sm:text-[22px]">{video.title}</h4>
         <p className="mb-3 mt-2 text-sm leading-relaxed text-[var(--cream-text)]/75 sm:text-base">{video.description}</p>
         <p className="flex items-center gap-2 text-sm font-bold text-[var(--gold-500)]">
           <Calendar className="h-[15px] w-[15px]" /> {video.date}
@@ -334,8 +334,8 @@ function HomePage() {
 
         <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-18 lg:px-8 lg:py-18">
           <BandLabel
-            eyebrow={isLive ? "Live Right Now" : "Upcoming Assembly"}
-            title={t("समाज कार्यक्रम थेट")}
+            eyebrow={isLive ? "Live Right Now" : "Live Events"}
+            title={t("Community Live Programs")}
             sub={t("वार्षिक सर्वसाधारण सभेत सहभागी व्हा — जोडले जा, सहभागी व्हा, एकत्र वाढा")}
           />
 
@@ -440,9 +440,9 @@ function HomePage() {
       {/* ================= NOTICES & UPCOMING EVENTS ================= */}
       <Section>
         <BandLabel
-          eyebrow="Announcements"
-          title={t("सूचना व कार्यक्रम")}
-          sub={t("समाजातील ताज्या सूचना आणि आगामी उपक्रमांची माहिती एकाच ठिकाणी.")}
+          eyebrow="Notices & Events"
+          title={t("Notices, Upcoming Events & Initiatives")}
+          sub={t("Detailed information about the community's important notices and upcoming events.")}
         />
 
         <div className="mt-10 grid gap-8 lg:mt-14 lg:grid-cols-[1fr_2fr] lg:items-start lg:gap-5">
@@ -632,26 +632,68 @@ function HomePage() {
           />
 
           <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:mt-14 lg:grid-cols-3">
-            {servicesPreview.map((s) => (
-              <a
-                key={s.href}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`group relative flex flex-col items-center overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-9 text-center backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-[var(--gold-400)]/60 hover:bg-white/[0.06] sm:px-7 sm:py-10 ${FOCUS_RING_DARK}`}
-              >
-                <span className="pointer-events-none absolute left-4 top-4 h-5 w-5 border-l border-t border-[var(--gold-400)]/40" />
-                <span className="pointer-events-none absolute bottom-4 right-4 h-5 w-5 border-b border-r border-[var(--gold-400)]/40" />
-                <div className="mb-5 grid h-16 w-16 place-items-center rounded-full border-2 border-[var(--gold-500)] bg-gradient-to-br from-[var(--service-icon-from)] to-[var(--service-icon-to)]">
-                  {s.icon}
-                </div>
-                <h3 className="font-display text-base font-bold text-[var(--gold-300)] sm:text-lg">{t(s.title)}</h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-white/60">{t(s.desc)}</p>
-                <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-[var(--gold-400)]">
-                  {t("अधिक जाणून घ्या")} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </span>
-              </a>
-            ))}
+            {servicesPreview.map((s) => {
+              const comingSoon = s.href === "#";
+              const CardTag = comingSoon ? "div" : "a";
+
+              return (
+                <CardTag
+                  key={s.title}
+                  {...(!comingSoon && {
+                    href: s.href,
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                  })}
+                  className={`group relative flex flex-col items-center overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-9 text-center backdrop-blur-sm transition-all duration-300 sm:px-7 sm:py-10 ${
+                    comingSoon
+                      ? "cursor-default"
+                      : `hover:-translate-y-1.5 hover:border-[var(--gold-400)]/60 hover:bg-white/[0.06] ${FOCUS_RING_DARK}`
+                  }`}
+                >
+                  <span className="pointer-events-none absolute left-4 top-4 h-5 w-5 border-l border-t border-[var(--gold-400)]/40" />
+                  <span className="pointer-events-none absolute bottom-4 right-4 h-5 w-5 border-b border-r border-[var(--gold-400)]/40" />
+
+                  {comingSoon && (
+                    <>
+                      {/* diagonal ribbon */}
+                      <div className="pointer-events-none absolute -right-11 top-6 w-40 rotate-45 bg-[var(--gold-stroke)] py-1 text-center shadow-md">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--maroon-950)]">
+                          {t("लवकरच")}
+                        </span>
+                      </div>
+                      {/* subtle dark veil so the whole card reads as inactive */}
+                      <div className="pointer-events-none absolute inset-0 bg-[var(--maroon-950)]/35" />
+                    </>
+                  )}
+
+                  <div
+                    className={`relative z-[1] mb-5 grid h-16 w-16 place-items-center rounded-full border-2 bg-gradient-to-br transition-all ${
+                      comingSoon
+                        ? "border-white/20 from-white/5 to-white/[0.02] grayscale opacity-50"
+                        : "border-[var(--gold-500)] from-[var(--service-icon-from)] to-[var(--service-icon-to)]"
+                    }`}
+                  >
+                    {s.icon}
+                  </div>
+                  <h3
+                    className={`relative z-[1] font-display text-base font-bold sm:text-lg ${
+                      comingSoon ? "text-white/50" : "text-[var(--gold-300)]"
+                    }`}
+                  >
+                    {t(s.title)}
+                  </h3>
+                  <p className={`relative z-[1] mt-2.5 text-sm leading-relaxed ${comingSoon ? "text-white/35" : "text-white/60"}`}>
+                    {t(s.desc)}
+                  </p>
+
+                  {!comingSoon && (
+                    <span className="relative z-[1] mt-5 inline-flex items-center gap-1 text-sm font-semibold text-[var(--gold-400)]">
+                      {t("अधिक जाणून घ्या")} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </span>
+                  )}
+                </CardTag>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -765,36 +807,195 @@ function HomePage() {
 /* ============================================================
    SAMAJ PARICHAY
    ============================================================ */
-/* ============================================================
-   SAMAJ PARICHAY — LIGHT THEME
-   ============================================================ */
-const parichayCards: { id: string; eyebrow: string; title: string; icon: LucideIcon }[] = [
+// const parichayCards: { id: string; eyebrow: string; title: string; icon: LucideIcon }[] = [
+//   { id: "itihas-varsa", eyebrow: "History & Origin", title: "समाजाची उत्पत्ती", icon: History },
+//   { id: "samaj-bhavan", eyebrow: "Community Halls", title: "समाज भवन", icon: Building2 },
+//   { id: "education", eyebrow: "Education", title: "शैक्षणिक सहाय्य", icon: GraduationCap },
+//   { id: "employment", eyebrow: "Career Support", title: "रोजगार सहाय्य", icon: Briefcase },
+//   { id: "social-service", eyebrow: "Social Welfare", title: "सामाजिक सेवा", icon: HeartHandshake },
+// ];
+
+// const parichaySlides = [parichayHero, parichaySlide1, parichaySlide2, parichaySlide3, parichaySlide4];
+
+// function SamajParichaySection() {
+//   const { t } = useLang();
+//   const [active, setActive] = useState(0);
+//   const activeCard = parichayCards[active];
+//   const total = parichayCards.length;
+
+//   return (
+//     <section
+//       className="relative overflow-hidden py-16 sm:py-16 lg:py-18"
+//     >
+//       <div className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-50" style={{ backgroundImage: `url(${videobg})` }} />
+//       {/* warm gold glow, top-right */}
+//       <div
+//         className="pointer-events-none absolute -top-20 right-0 h-[440px] w-[440px] rounded-full"
+//         style={{ background: "radial-gradient(circle, rgba(212,175,55,0.18), transparent 70%)", filter: "blur(70px)" }}
+//       />
+//       {/* soft maroon glow, bottom-left */}
+//       <div
+//         className="pointer-events-none absolute -bottom-24 -left-16 h-[360px] w-[360px] rounded-full"
+//         style={{ background: "radial-gradient(circle, rgba(138,28,61,0.08), transparent 70%)", filter: "blur(60px)" }}
+//       />
+
+//       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+//         <BandLabel
+//           eyebrow="Samaj Parichay"
+//           title={t("समाज परिचय")}
+//           sub={t("कोहळी समाजाचा इतिहास, वारसा आणि समाज भवनांची सविस्तर माहिती.")}
+//         />
+
+//         <div className="mt-12 grid gap-8 lg:mt-16 lg:grid-cols-[1fr_2fr] lg:gap-5">
+//           {/* Left — chapter rail */}
+//           <div className="flex flex-col justify-center">
+//             {parichayCards.map((card, i) => {
+//               const isActive = i === active;
+//               const isPast = i < active;
+//               const isLast = i === total - 1;
+//               return (
+//                 <div key={card.id} className="relative flex gap-4 sm:gap-5">
+//                   <div className="flex flex-col items-center">
+//                     <button
+//                       type="button"
+//                       aria-label={t(card.title)}
+//                       onMouseEnter={() => setActive(i)}
+//                       onFocus={() => setActive(i)}
+//                       onClick={() => setActive(i)}
+//                       className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 font-display text-sm font-bold transition-all duration-300 ${FOCUS_RING} ${
+//                         isActive
+//                           ? "scale-110 border-[var(--maroon-800)] bg-[var(--maroon-800)] text-white shadow-[0_0_0_5px_rgba(138,28,61,0.12)]"
+//                           : isPast
+//                             ? "border-[var(--gold-500)] bg-[var(--gold-500)] text-white"
+//                             : "border-[var(--maroon-900)]/15 text-[var(--maroon-900)]/35 hover:border-[var(--maroon-900)]/30"
+//                       }`}
+//                     >
+//                       {i + 1}
+//                     </button>
+//                     {!isLast && (
+//                       <span
+//                         className={`min-h-[40px] w-px flex-1 transition-colors duration-500 sm:min-h-[46px] ${
+//                           isPast ? "bg-[var(--gold-500)]" : "bg-[var(--maroon-900)]/10"
+//                         }`}
+//                       />
+//                     )}
+//                   </div>
+
+//                   <button
+//                     type="button"
+//                     onMouseEnter={() => setActive(i)}
+//                     onFocus={() => setActive(i)}
+//                     onClick={() => setActive(i)}
+//                     className={`group -mt-1 flex-1 pb-8 text-left sm:pb-5 ${FOCUS_RING}`}
+//                   >
+//                     <span
+//                       className={`block text-[10px] font-bold uppercase tracking-[0.25em] transition-colors duration-300 ${
+//                         isActive ? "text-[var(--maroon-700)]" : "text-[var(--maroon-900)]/35"
+//                       }`}
+//                     >
+//                       {card.eyebrow}
+//                     </span>
+//                     <span
+//                       className={`mt-1.5 block font-display text-lg font-bold transition-all duration-300 sm:text-xl md:text-2xl ${
+//                         isActive
+//                           ? "translate-x-1.5 text-[var(--maroon-900)]"
+//                           : "text-[var(--maroon-900)]/40 group-hover:translate-x-1 group-hover:text-[var(--maroon-900)]/70"
+//                       }`}
+//                     >
+//                       {t(card.title)}
+//                     </span>
+//                   </button>
+//                 </div>
+//               );
+//             })}
+
+//           <div>
+//              <Link
+//               to="/samaj-parichay/$topicId"
+//               params={{ topicId: "itihas-varsa" }}
+//               className={`group inline-flex items-center justify-center gap-1.5 rounded-[2px] px-5 py-2.5 sm:px-7 sm:py-3 font-['Mukta'] text-xs sm:text-sm font-bold tracking-[0.02em] transition-all duration-300 ease-in-out hover:-translate-y-1 bg-gradient-to-br from-[var(--gold-300)] via-[var(--gold-600)] to-[var(--gold-400)] text-[var(--maroon-950)] shadow-[0_8px_22px_-8px_rgba(212,175,55,0.65)] hover:shadow-[0_12px_28px_-8px_rgba(212,175,55,0.75)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold-500)] focus-visible:ring-offset-2 mt-3`}
+//             >
+//               {t("सर्व प्रकरणे पहा")} <ArrowRight className="h-4 w-4" />
+//             </Link>
+//           </div>
+          
+//           </div>
+
+//           {/* Right — image stage (stays dark: the one deliberate contrast note on the light section) */}
+//           <div className="relative lg:sticky lg:top-24">
+//             <div
+//               className="relative aspect-[4/5] sm:aspect-[16/10] lg:aspect-auto lg:h-[400px] overflow-hidden rounded-3xl shadow-[0_20px_50px_-15px_rgba(61,10,26,0.25)]"
+//               style={{ border: "1px solid rgba(138,28,61,0.12)" }}
+//             >
+//               {parichaySlides.map((src, i) => (
+//                 <img
+//                   key={i}
+//                   src={src}
+//                   alt=""
+//                   loading="lazy"
+//                   className={`absolute inset-0 h-full w-full object-cover transition-all duration-[1100ms] ease-out ${
+//                     i === active ? "scale-100 opacity-100" : "scale-110 opacity-0"
+//                   }`}
+//                 />
+//               ))}
+//               <div className="absolute inset-0 bg-gradient-to-t from-[var(--maroon-950)]/85 via-[var(--maroon-950)]/0 to-[var(--maroon-950)]/5" />
+
+//               <div className="absolute right-5 top-5 rounded-full bg-[var(--maroon-950)]/45 px-3 py-1.5 text-xs font-bold tracking-wider text-white/90 ring-1 ring-white/20 backdrop-blur">
+//                 {String(active + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+//               </div>
+
+//               <div className="absolute inset-x-0 bottom-0 p-6 sm:p-9">
+//                 <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[var(--gold-400)]">{activeCard.eyebrow}</p>
+//                 <h3 className="mt-2 font-display text-xl font-bold leading-snug text-white sm:text-2xl md:text-3xl">
+//                   {t(activeCard.title)}
+//                 </h3>
+//                 {/* <Link
+//                   to="/samaj-parichay/$topicId"
+//                   params={{ topicId: activeCard.id }}
+//                   className={`group mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-[var(--gold-300)] via-[var(--gold-600)] to-[var(--gold-400)] px-5 py-2.5 text-sm font-bold text-[var(--maroon-950)] shadow-[0_10px_24px_-10px_rgba(212,175,55,0.65)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-10px_rgba(212,175,55,0.75)] ${FOCUS_RING}`}
+//                 >
+//                   {t("हा अध्याय वाचा")}
+//                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+//                 </Link> */}
+//               </div>
+//             </div>
+//           </div>
+          
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
+const parichayLinks: { id: string; eyebrow: string; title: string; icon: LucideIcon }[] = [
   { id: "itihas-varsa", eyebrow: "History & Origin", title: "समाजाची उत्पत्ती", icon: History },
   { id: "samaj-bhavan", eyebrow: "Community Halls", title: "समाज भवन", icon: Building2 },
-  { id: "education", eyebrow: "Education", title: "शैक्षणिक सहाय्य", icon: GraduationCap },
-  { id: "employment", eyebrow: "Career Support", title: "रोजगार सहाय्य", icon: Briefcase },
-  { id: "social-service", eyebrow: "Social Welfare", title: "सामाजिक सेवा", icon: HeartHandshake },
 ];
 
 const parichaySlides = [parichayHero, parichaySlide1, parichaySlide2, parichaySlide3, parichaySlide4];
 
 function SamajParichaySection() {
   const { t } = useLang();
-  const [active, setActive] = useState(0);
-  const activeCard = parichayCards[active];
-  const total = parichayCards.length;
+  const [slide, setSlide] = useState(0);
+  const total = parichaySlides.length;
+
+  // autoplay
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSlide((prev) => (prev + 1) % total);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [total]);
+
+  const goTo = (i: number) => setSlide((i + total) % total);
 
   return (
-    <section
-      className="relative overflow-hidden py-16 sm:py-16 lg:py-18"
-    >
+    <section className="relative overflow-hidden py-16 sm:py-16 lg:py-18">
       <div className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-50" style={{ backgroundImage: `url(${videobg})` }} />
-      {/* warm gold glow, top-right */}
       <div
         className="pointer-events-none absolute -top-20 right-0 h-[440px] w-[440px] rounded-full"
         style={{ background: "radial-gradient(circle, rgba(212,175,55,0.18), transparent 70%)", filter: "blur(70px)" }}
       />
-      {/* soft maroon glow, bottom-left */}
       <div
         className="pointer-events-none absolute -bottom-24 -left-16 h-[360px] w-[360px] rounded-full"
         style={{ background: "radial-gradient(circle, rgba(138,28,61,0.08), transparent 70%)", filter: "blur(60px)" }}
@@ -808,81 +1009,45 @@ function SamajParichaySection() {
         />
 
         <div className="mt-12 grid gap-8 lg:mt-16 lg:grid-cols-[1fr_2fr] lg:gap-5">
-          {/* Left — chapter rail */}
-          <div className="flex flex-col justify-center">
-            {parichayCards.map((card, i) => {
-              const isActive = i === active;
-              const isPast = i < active;
-              const isLast = i === total - 1;
+          {/* Left — two direct-link cards */}
+          <div className="flex flex-col justify-center gap-4">
+            {parichayLinks.map((card) => {
+              const Icon = card.icon;
               return (
-                <div key={card.id} className="relative flex gap-4 sm:gap-5">
-                  <div className="flex flex-col items-center">
-                    <button
-                      type="button"
-                      aria-label={t(card.title)}
-                      onMouseEnter={() => setActive(i)}
-                      onFocus={() => setActive(i)}
-                      onClick={() => setActive(i)}
-                      className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 font-display text-sm font-bold transition-all duration-300 ${FOCUS_RING} ${
-                        isActive
-                          ? "scale-110 border-[var(--maroon-800)] bg-[var(--maroon-800)] text-white shadow-[0_0_0_5px_rgba(138,28,61,0.12)]"
-                          : isPast
-                            ? "border-[var(--gold-500)] bg-[var(--gold-500)] text-white"
-                            : "border-[var(--maroon-900)]/15 text-[var(--maroon-900)]/35 hover:border-[var(--maroon-900)]/30"
-                      }`}
-                    >
-                      {i + 1}
-                    </button>
-                    {!isLast && (
-                      <span
-                        className={`min-h-[40px] w-px flex-1 transition-colors duration-500 sm:min-h-[46px] ${
-                          isPast ? "bg-[var(--gold-500)]" : "bg-[var(--maroon-900)]/10"
-                        }`}
-                      />
-                    )}
-                  </div>
+                <Link
+                  key={card.id}
+                  to="/samaj-parichay/$topicId"
+                  params={{ topicId: card.id }}
+                  className={`group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-[var(--maroon-900)]/10 bg-[var(--card)] px-5 py-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--gold-500)]/40 hover:shadow-[0_14px_30px_-14px_rgba(138,28,61,0.25)] sm:px-6 sm:py-6 ${FOCUS_RING}`}
+                >
+                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gradient-to-br from-[var(--gold-300)] via-[var(--gold-600)] to-[var(--gold-400)] text-[var(--maroon-950)] shadow-[0_8px_18px_-8px_rgba(212,175,55,0.6)] transition-transform duration-300 group-hover:scale-105 sm:h-14 sm:w-14">
+                    <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
+                  </span>
 
-                  <button
-                    type="button"
-                    onMouseEnter={() => setActive(i)}
-                    onFocus={() => setActive(i)}
-                    onClick={() => setActive(i)}
-                    className={`group -mt-1 flex-1 pb-8 text-left sm:pb-5 ${FOCUS_RING}`}
-                  >
-                    <span
-                      className={`block text-[10px] font-bold uppercase tracking-[0.25em] transition-colors duration-300 ${
-                        isActive ? "text-[var(--maroon-700)]" : "text-[var(--maroon-900)]/35"
-                      }`}
-                    >
+                  <span className="flex-1">
+                    <span className="block text-[14px] font-bold uppercase  text-[var(--maroon-900)]/45">
                       {card.eyebrow}
                     </span>
-                    <span
-                      className={`mt-1.5 block font-display text-lg font-bold transition-all duration-300 sm:text-xl md:text-2xl ${
-                        isActive
-                          ? "translate-x-1.5 text-[var(--maroon-900)]"
-                          : "text-[var(--maroon-900)]/40 group-hover:translate-x-1 group-hover:text-[var(--maroon-900)]/70"
-                      }`}
-                    >
+                    <span className="mt-1 block font-display text-lg font-extrabold text-[var(--maroon-900)] transition-colors duration-300 group-hover:text-[var(--maroon-700)] sm:text-xl">
                       {t(card.title)}
                     </span>
-                  </button>
-                </div>
+                  </span>
+
+                  <ArrowRight className="h-5 w-5 shrink-0 text-[var(--maroon-900)]/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[var(--gold-600)]" />
+                </Link>
               );
             })}
 
-          <div>
-             <Link
+            {/* <Link
               to="/samaj-parichay/$topicId"
               params={{ topicId: "itihas-varsa" }}
               className={`group inline-flex items-center justify-center gap-1.5 rounded-[2px] px-5 py-2.5 sm:px-7 sm:py-3 font-['Mukta'] text-xs sm:text-sm font-bold tracking-[0.02em] transition-all duration-300 ease-in-out hover:-translate-y-1 bg-gradient-to-br from-[var(--gold-300)] via-[var(--gold-600)] to-[var(--gold-400)] text-[var(--maroon-950)] shadow-[0_8px_22px_-8px_rgba(212,175,55,0.65)] hover:shadow-[0_12px_28px_-8px_rgba(212,175,55,0.75)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold-500)] focus-visible:ring-offset-2 mt-3`}
             >
               {t("सर्व प्रकरणे पहा")} <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-          
+            </Link> */}
           </div>
 
-          {/* Right — image stage (stays dark: the one deliberate contrast note on the light section) */}
+          {/* Right — independent image slider */}
           <div className="relative lg:sticky lg:top-24">
             <div
               className="relative aspect-[4/5] sm:aspect-[16/10] lg:aspect-auto lg:h-[400px] overflow-hidden rounded-3xl shadow-[0_20px_50px_-15px_rgba(61,10,26,0.25)]"
@@ -895,33 +1060,50 @@ function SamajParichaySection() {
                   alt=""
                   loading="lazy"
                   className={`absolute inset-0 h-full w-full object-cover transition-all duration-[1100ms] ease-out ${
-                    i === active ? "scale-100 opacity-100" : "scale-110 opacity-0"
+                    i === slide ? "scale-100 opacity-100" : "scale-110 opacity-0"
                   }`}
                 />
               ))}
               <div className="absolute inset-0 bg-gradient-to-t from-[var(--maroon-950)]/85 via-[var(--maroon-950)]/0 to-[var(--maroon-950)]/5" />
 
+              {/* prev / next arrows */}
+              <button
+                type="button"
+                aria-label="Previous slide"
+                onClick={() => goTo(slide - 1)}
+                className={`absolute left-3 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-[var(--maroon-950)]/40 text-white backdrop-blur transition-colors hover:bg-[var(--maroon-950)]/60 ${FOCUS_RING}`}
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                type="button"
+                aria-label="Next slide"
+                onClick={() => goTo(slide + 1)}
+                className={`absolute right-3 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-[var(--maroon-950)]/40 text-white backdrop-blur transition-colors hover:bg-[var(--maroon-950)]/60 ${FOCUS_RING}`}
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+
               <div className="absolute right-5 top-5 rounded-full bg-[var(--maroon-950)]/45 px-3 py-1.5 text-xs font-bold tracking-wider text-white/90 ring-1 ring-white/20 backdrop-blur">
-                {String(active + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+                {String(slide + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
               </div>
 
-              <div className="absolute inset-x-0 bottom-0 p-6 sm:p-9">
-                <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[var(--gold-400)]">{activeCard.eyebrow}</p>
-                <h3 className="mt-2 font-display text-xl font-bold leading-snug text-white sm:text-2xl md:text-3xl">
-                  {t(activeCard.title)}
-                </h3>
-                {/* <Link
-                  to="/samaj-parichay/$topicId"
-                  params={{ topicId: activeCard.id }}
-                  className={`group mt-5 inline-flex items-center gap-2 rounded-full bg-gradient-to-br from-[var(--gold-300)] via-[var(--gold-600)] to-[var(--gold-400)] px-5 py-2.5 text-sm font-bold text-[var(--maroon-950)] shadow-[0_10px_24px_-10px_rgba(212,175,55,0.65)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-10px_rgba(212,175,55,0.75)] ${FOCUS_RING}`}
-                >
-                  {t("हा अध्याय वाचा")}
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link> */}
+              {/* dot indicators */}
+              <div className="absolute inset-x-0 bottom-5 flex items-center justify-center gap-2">
+                {parichaySlides.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={`Go to slide ${i + 1}`}
+                    onClick={() => goTo(i)}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      i === slide ? "w-6 bg-[var(--gold-400)]" : "w-1.5 bg-white/50 hover:bg-white/75"
+                    }`}
+                  />
+                ))}
               </div>
             </div>
           </div>
-          
         </div>
       </div>
     </section>
@@ -946,22 +1128,26 @@ const servicesPreview = [
     href: "#",
     icon: (
       <svg className="h-[30px] w-[30px] stroke-[var(--gold-stroke)]" viewBox="0 0 24 24" fill="none" strokeWidth={1.6}>
-        <path d="M12 3 L21 8 L12 13 L3 8 Z" />
-        <path d="M6 10 V16 C6 18 9 19 12 19 C15 19 18 18 18 16 V10" />
+        <path d="M8 12 C 5.5 10.5 4 8.5 4 6.5 C 4 4.5 5.5 3 7.5 3 C 9 3 10 4 10 5.5" />
+        <path d="M16 12 C 18.5 10.5 20 8.5 20 6.5 C 20 4.5 18.5 3 16.5 3 C 15 3 14 4 14 5.5" />
+        <circle cx="8" cy="16" r="4" />
+        <circle cx="16" cy="16" r="4" />
       </svg>
     ),
-    title: "Scholarships & Education",
-    desc: "Financial aid and mentorship for meritorious students of the Samaj.",
+    title: "Matrimonial Services",
+    desc: "समाजातील विवाहेच्छुक तरुण-तरुणींसाठी विश्वासार्ह वधू-वर सूचक मंच.",
   },
   {
     href: "#",
     icon: (
       <svg className="h-[30px] w-[30px] stroke-[var(--gold-stroke)]" viewBox="0 0 24 24" fill="none" strokeWidth={1.6}>
-        <path d="M4 21 V10 L12 4 L20 10 V21 Z" />
-        <path d="M9 21 V14 H15 V21" />
+        <rect x="3" y="8" width="18" height="12" rx="1.5" />
+        <path d="M8 8 V6 C8 4.9 8.9 4 10 4 H14 C15.1 4 16 4.9 16 6 V8" />
+        <path d="M3 13 H21" />
+        <path d="M10 13 V15 H14 V13" />
       </svg>
     ),
-    title: "Healthcare Assistance",
-    desc: "Medical camps, insurance guidance and emergency support funds.",
+    title: "Job Portal",
+    desc: "समाजबांधवांसाठी रोजगाराच्या संधी आणि करिअर मार्गदर्शन उपलब्ध करून देणारे व्यासपीठ.",
   },
 ];

@@ -14,13 +14,13 @@ export function MemberCard({ member }: { member: Member }) {
       <div className="relative block group" key={member.id}>
       {/* Image Box */}
       <div className="relative block rounded-[10px] overflow-hidden">
-        <div className="relative block rounded-[10px] overflow-hidden">
+        <div className="relative block rounded-[10px] overflow-hidden h-[320px]">
           {/* Image with overlay */}
-          <div className="relative block rounded-[10px] overflow-hidden aspect-[3/4]">
+          <div className="relative block rounded-[10px] overflow-hidden aspect-square">
             <img
               src={member.photo}
               alt={member.name}
-              className="absolute inset-0 w-full h-full object-cover rounded-[10px] transition-transform duration-1000 ease-in-out group-hover:scale-110"
+              className="absolute inset-0 w-full h-full object-cover object-[center_20%] rounded-[10px] transition-transform duration-1000 ease-in-out group-hover:scale-110"
             />
             {/* Overlay */}
             <div className="absolute inset-0 bg-[#d89626] opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-50 z-10" />

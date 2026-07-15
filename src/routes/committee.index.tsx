@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { PageHero, Section } from "@/components/ui/Section";
@@ -19,6 +19,7 @@ export const Route = createFileRoute("/committee/")({
 });
 
 function CommitteePage() {
+   const router = useRouter();
   return (
     <SiteLayout>
       <PageHero
@@ -29,13 +30,14 @@ function CommitteePage() {
       />
       <Section>
         <div className="mb-8">
-          <Link
-            to="/"
-            className="group inline-flex items-center justify-center gap-1 rounded-[2px] bg-gradient-to-br from-[var(--gold-300)] via-[var(--gold-600)] to-[var(--gold-400)] px-4 py-2 sm:px-[26px] sm:py-3 font-['Mukta'] text-xs sm:text-[0.88rem] font-bold tracking-[0.02em] text-[var(--maroon-950)] shadow-[0_8px_22px_-8px_rgba(212,175,55,0.65)] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_12px_28px_-8px_rgba(212,175,55,0.75)]"
+          <button
+            type="button"
+            onClick={() => router.history.back()}
+            className="cursor-pointer group inline-flex items-center justify-center gap-1 rounded-[2px] bg-gradient-to-br from-[var(--gold-300)] via-[var(--gold-600)] to-[var(--gold-400)] px-4 py-2 sm:px-[26px] sm:py-3 font-['Mukta'] text-xs sm:text-[0.88rem] font-bold tracking-[0.02em] text-[var(--maroon-950)] shadow-[0_8px_22px_-8px_rgba(212,175,55,0.65)] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_12px_28px_-8px_rgba(212,175,55,0.75)]"
           >
             <ArrowLeft className="h-4 w-4" />
             मुख्यपृष्ठावर परत जा
-          </Link>
+          </button>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {members.map((m) => (
